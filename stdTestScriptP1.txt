@@ -1,0 +1,48 @@
+# stdTestScriptP1.txt
+
+!rm -f *.dsk
+!echo D1 128 512 8 20 3 > diskParams.txt
+!echo D2 1024 1024 32 100 6 >> diskParams.txt
+!echo D3 64 128 4 16 4 >> diskParams.txt
+
+!ls -l D* *.txt *.dsk
+
+mkdisk D2
+mkfs D2
+inode 1
+
+!ls -lisa > ./ReadMe.txt
+cp ./ReadMe.txt @/ReadMe.txt
+inode 2
+ls
+
+mkdir dir1
+cp @/ReadMe.txt @/dir1/readme.txt
+ls dir1
+chdir dir1
+mkdir dir2
+mv @readme.txt @dir2/readme.txt
+inode dir2/readme.txt
+pwd
+ls
+
+cp @dir2/readme.txt ./dir1-dir2-readme.txt
+!diff dir1-dir2-readme.txt ReadMe.txt
+
+ls dir2
+rm @dir2/readme.txt
+ls dir2
+cd ..
+rmdir dir2
+ls
+
+fdfs D2
+inode 1
+inode 2
+inode 3
+inode 4
+
+!ls -l D* *.txt *.dsk
+quit
+
+# -eof-
